@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portofolio — Nama Kamu</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="" crossorigin="anonymous">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root{
+      --bg: #0f172a; 
+      --card: rgba(255,255,255,0.06);
+      --muted: #94a3b8;
+      --accent: #06b6d4; 
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.06);
+      --radius: 12px;
+      --max-width: 1100px;
+      --transition: 300ms cubic-bezier(.2,.9,.3,1);
+      --text: #e6eef6;
+      --main-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body { height:100%; background:var(--bg); color:var(--text); font-family:var(--main-font); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+    .page {
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    .wrap {
+      width:100%;
+      max-width:var(--max-width);
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      gap:30px;
+      align-items:start;
+    }
+
+    @media (max-width:900px){
+      .wrap { grid-template-columns: 1fr; padding-bottom:40px; }
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      padding:24px;
+      border-radius:var(--radius);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.5);
+      position:sticky;
+      top:24px;
+      height:fit-content;
+    }
+
+    .avatar {
+      width:120px; height:120px;
+      border-radius:50%;
+      background:var(--glass);
+      display:block; margin:0 auto 14px auto;
+      overflow:hidden; border:4px solid rgba(255,255,255,0.06);
+    }
+    .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .name { text-align:center; font-weight:800; font-size:1.25rem; margin-bottom:6px; color:var(--text); }
+    .role { text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:14px; }
+
+    .contact-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+    .contact-item { display:flex; gap:10px; align-items:center; color:var(--muted); font-size:0.95rem; }
+    .contact-item a { color:inherit; text-decoration:none; transition:color var(--transition); }
+    .contact-item a:hover { color:var(--accent); }
+
+    .skills {
+      margin-top:18px;
+    }
+    .skill { margin-bottom:10px; }
+    .skill .label { display:flex; justify-content:space-between; font-size:0.85rem; color:var(--muted); margin-bottom:6px; }
+    .bar { height:10px; background:rgba(255,255,255,0.04); border-radius:8px; overflow:hidden; }
+    .bar > i { display:block; height:100%; width:40%; background:linear-gradient(90deg,var(--accent), #7c3aed); border-radius:8px; transition:width 600ms cubic-bezier(.2,.9,.3,1); }
+
+    .sidebar-footer { margin-top:18px; display:flex; gap:8px; justify-content:center; align-items:center; }
+    .btn { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer; transition:all var(--transition); font-weight:600; }
+    .btn:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(2,6,23,0.4); }
+
+    /* -------------------------
+       MAIN
+       ------------------------- */
+    .main {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:24px;
+      border-radius:var(--radius);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.45);
+    }
+
+    .header {
+      display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:18px;
+    }
+
+    .title {
+      display:flex; gap:12px; align-items:center;
+    }
+    .title h1 { font-size:1.35rem; letter-spacing:-0.5px; margin:0; color:var(--text); }
+    .subtitle { color:var(--muted); font-size:0.95rem; }
+
+    .actions { display:flex; gap:10px; align-items:center; }
+
+    .chip { padding:8px 10px; border-radius:999px; background:var(--glass-2); color:var(--muted); font-weight:600; font-size:0.9rem; display:inline-flex; gap:8px; align-items:center; }
+
+    section { margin-top:18px; }
+    section h2 { font-size:1.05rem; color:var(--text); margin-bottom:12px; display:flex; gap:10px; align-items:center; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:16px; border-radius:12px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.02); }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+    }
+    @media (max-width:900px){ .grid { grid-template-columns: 1fr; } }
+
+    .project {
+      overflow:hidden; border-radius:10px; position:relative; cursor:pointer; border:1px solid rgba(255,255,255,0.03);
+      transition:transform var(--transition), box-shadow var(--transition);
+    }
+    .project:hover { transform:translateY(-6px); box-shadow:0 18px 40px rgba(2,6,23,0.5); }
+    .project .thumb { width:100%; height:140px; object-fit:cover; display:block; }
+    .project .p-body { padding:12px; background:linear-gradient(180deg, rgba(0,0,0,0.12), transparent); }
+    .project .p-title { font-weight:700; margin-bottom:6px; color:var(--text); }
+    .project .p-desc { color:var(--muted); font-size:0.9rem; }
+
+    .exp-list { display:flex; flex-direction:column; gap:8px; }
+    .exp-item { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:10px; background:var(--glass); border-radius:8px; }
+    .exp-item .meta { color:var(--muted); font-size:0.9rem; }
+
+    .contact-form { display:grid; gap:10px; grid-template-columns:1fr 1fr; }
+    @media (max-width:900px) { .contact-form { grid-template-columns:1fr; } }
+    .input, textarea { background:transparent; border:1px solid rgba(255,255,255,0.06); padding:10px 12px; border-radius:8px; color:var(--text); }
+    textarea { min-height:120px; resize:vertical; }
+
+    .row { display:flex; gap:10px; align-items:center; }
+    .muted { color:var(--muted); font-size:0.9rem; }
+
+    .right { margin-left:auto; }
+
+    .modal-backdrop { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(2,6,23,0.6); z-index:60; opacity:0; pointer-events:none; transition:opacity 200ms; }
+    .modal-backdrop.open { opacity:1; pointer-events:auto; }
+    .modal { width:90%; max-width:720px; background:linear-gradient(180deg, #071126, #041026); padding:20px; border-radius:14px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 30px 80px rgba(2,6,23,0.6); color:var(--text); }
+
+    .reveal { opacity:0; transform:translateY(10px); transition:opacity 600ms ease, transform 600ms ease; }
+    .reveal.show { opacity:1; transform:none; }
+
+    footer.app-footer { margin-top:20px; text-align:center; color:var(--muted); font-size:0.85rem; }
+
+  </style>
+</head>
+<body>
+  <div class="page" id="page">
+    <div class="wrap">
+      <aside class="sidebar reveal" id="sidebar">
+        <div class="avatar" title="Ganti foto di HTML">
+          <img src="persib.webp" alt="Avatar">
+        </div>
+
+        <div class="name" id="meName">Nama Kamu</div>
+        <div class="role" id="meRole">Web Developer • UI/UX • Frontend</div>
+
+        <div class="contact-list">
+          <div class="contact-item"><i class="fa fa-map-marker-alt" style="width:18px;text-align:center;color:var(--accent)"></i> <span class="muted">Sumedang</span></div>
+          <div class="contact-item"><i class="fa fa-envelope" style="width:18px;text-align:center;color:var(--accent)"></i> <a href="mailto:email@example.com" id="emailLink">asepherman1286@gmail.com</a></div>
+          <div class="contact-item"><i class="fa fa-phone" style="width:18px;text-align:center;color:var(--accent)"></i> <a href="tel:+6281234567890">+62 858 4693 5135</a></div>
+        </div>
+
+        <div class="skills">
+          <h3 style="font-size:0.95rem;margin:12px 0 8px;color:var(--text)">Skills</h3>
+          <div class="skill">
+            <div class="label"><span>HTML</span><span class="muted">80%</span></div>
+            <div class="bar"><i style="width:95%"></i></div>
+          </div>
+
+          <div class="skill">
+            <div class="label"><span>CSS</span><span class="muted">70%</span></div>
+            <div class="bar"><i style="width:90%"></i></div>
+          </div>
+
+          <div class="skill">
+            <div class="label"><span>JavaScript</span><span class="muted">50%</span></div>
+            <div class="bar"><i style="width:88%"></i></div>
+          </div>
+
+          <div class="skill">
+            <div class="label"><span>React (opsional)</span><span class="muted">45%</span></div>
+            <div class="bar"><i style="width:70%"></i></div>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <button class="btn" id="btnChangeBg" title="Ganti warna latar">Ganti Warna</button>
+          <a class="btn" id="downloadResume" href="#" download="resume.pdf" title="Download CV">Download CV</a>
+        </div>
+      </aside>
+
+      <main class="main reveal" id="main">
+        <div class="header">
+          <div class="title">
+            <div>
+              <h1 id="heroName">Halo, saya Nama Kamu</h1>
+              <div class="subtitle" id="heroTag">Saya membuat pengalaman web yang mudah digunakan.</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <div class="chip" id="clockChip"><i class="fa fa-clock"></i> <span id="timeNow">--:--</span></div>
+            <button class="btn" id="toggleTheme"><i class="fa fa-adjust"></i> Tema</button>
+          </div>
+        </div>
+
+        <section id="about" class="card reveal">
+          <h2><i class="fa fa-user"></i>&nbsp; Tentang Saya</h2>
+          <p id="aboutText">
+            Halo, nama saya Asep Suherman. Saya merupakan mahasiswa Program Studi Informatika, Fakultas Teknologi Informasi, Universitas Sebelas April. Saya berasal dari Kabupaten Sumedang, Jawa Barat.Saya memiliki kulit sawo matang, tinggi badan 160 cm, dan berat badan 60 kg. Saya adalah pribadi yang bersemangat dalam dunia teknologi, selalu ingin belajar hal baru, dan berkomitmen untuk berkembang di bidang informatika.
+          </p>
+        </section>
+
+        <section id="projectsSection" class="reveal">
+          <h2><i class="fa fa-folder-open"></i>&nbsp; Proyek Saya</h2>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
+            <div class="chip">Filter:</div>
+            <select id="projectFilter" class="input" style="max-width:220px;">
+              <option value="all">Semua</option>
+              <option value="web">Web</option>
+              <option value="uiux">UI/UX</option>
+              <option value="backend">Backend</option>
+            </select>
+            <div class="right muted">Klik kartu untuk detail</div>
+          </div>
+          <div class="grid" id="projectsGrid">
+          </div>
+        </section>
+
+        <section id="expSection" class="card reveal">
+          <h2><i class="fa fa-briefcase"></i>&nbsp; Pengalaman Kerja</h2>
+          <div class="exp-list" id="experienceList">
+          </div>
+        </section>
+
+        <section id="eduSection" class="card reveal">
+          <h2><i class="fa fa-graduation-cap"></i>&nbsp; Pendidikan</h2>
+          <div class="exp-list">
+            <div class="exp-item">
+              <div>
+                <div style="font-weight:700">Teknik Informatika — Universitas Sebelas April</div>
+                <div class="muted">S1 • 2023 - sekarang</div>
+              </div>
+              <div class="muted">IPK: 3.5</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contactSection" class="card reveal">
+          <h2><i class="fa fa-envelope"></i>&nbsp; Kontak</h2>
+
+          <form id="contactForm" onsubmit="return false;">
+            <div class="contact-form">
+              <input class="input" id="inputName" placeholder="Nama lengkap" required />
+              <input class="input" id="inputEmail" placeholder="Email" type="email" required />
+              <input class="input" id="inputSubject" placeholder="Subjek" />
+              <textarea id="inputMessage" placeholder="Pesan..." required></textarea>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+              <button id="sendBtn" class="btn" type="submit">Kirim Pesan</button>
+              <div id="formStatus" class="muted">Atau kirim lewat email: <a id="mailto" href="mailto:email@example.com?subject=Halo">asepherman1286@gmail.com</a></div>
+            </div>
+          </form>
+        </section>
+
+        <footer class="app-footer">
+          © <span id="yearNow"></span>Asman(Asep Suherman)
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div>
+          <h3 id="modalTitle" style="margin:0"></h3>
+          <div id="modalMeta" class="muted" style="font-size:0.9rem;margin-top:6px"></div>
+        </div>
+        <button class="btn" id="closeModal"><i class="fa fa-times"></i></button>
+      </div>
+      <div id="modalContent" style="margin-top:6px;color:var(--muted);line-height:1.5"></div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <a id="modalLive" class="btn" href="#" target="_blank">Lihat Live</a>
+        <a id="modalRepo" class="btn" href="#" target="_blank">Repo</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {
+      name: "Asep Suherman",
+      role: "Web Developer • UI/UX Enthusiast",
+      about: `Halo, nama saya Asep Suherman. Saya merupakan mahasiswa Program Studi Informatika, Fakultas Teknologi Informasi, Universitas Sebelas April. Saya berasal dari Kabupaten Sumedang, Jawa Barat.Saya memiliki kulit sawo matang, tinggi badan 150 cm, dan berat badan 60 kg. Saya adalah pribadi yang bersemangat dalam dunia teknologi, selalu ingin belajar hal baru, dan berkomitmen untuk berkembang di bidang informatika. Saya seorang web developer yang fokus membuat antarmuka modern, cepat, dan aksesibel. Saya nyaman bekerja dengan HTML, CSS, serta JavaScript vanilla. Saya juga mengerti dasar React dan deployment.`,
+      email: "email@example.com",
+      phone: "+6281234567890",
+      city: "Bandung, Indonesia",
+      resumeUrl: "#", // ganti dengan link file resume (pdf)
+      projects: [
+        {
+          id: "p1",
+          title: "Website Profil UMKM",
+          category: "web",
+          desc: "Website katalog produk UMKM dengan fitur filter & responsive.",
+          long: "Mendesain dan mengimplementasikan website sederhana untuk UMKM, fitur: daftar produk, filter, dan contact form. Teknologi: HTML, CSS, JS.",
+          img: "https://picsum.photos/id/1011/800/600",
+          live: "#",
+          repo: "#"
+        },
+        {
+          id: "p2",
+          title: "Aplikasi Inventori Barang",
+          category: "backend",
+          desc: "Aplikasi inventori ringan (front-end mockup).",
+          long: "Proyek prototype untuk inventori; fokus pada UI dashboard dan sistem CRUD sederhana.",
+          img: "https://picsum.photos/id/1025/800/600",
+          live: "#",
+          repo: "#"
+        },
+        {
+          id: "p3",
+          title: "Redesign UI Aplikasi",
+          category: "uiux",
+          desc: "Redesign flow pengguna untuk aplikasi edukasi.",
+          long: "Melakukan riset UX, wireframe, hingga prototyping Figma; implementasi front-end interaktif.",
+          img: "https://picsum.photos/id/1005/800/600",
+          live: "#",
+          repo: "#"
+        },
+        {
+          id: "p4",
+          title: "Landing Page Klien",
+          category: "web",
+          desc: "Landing page marketing untuk kampanye produk.",
+          long: "Membuat landing page dengan fokus conversion, animasi ringan, dan SEO dasar.",
+          img: "https://picsum.photos/id/1003/800/600",
+          live: "#",
+          repo: "#"
+        }
+      ],
+      experience: [
+        { title: "Web Developer", company: "PT. Teknologi Cipta", period: "2020 - 2023", desc: "Mengembangkan front-end untuk aplikasi internal dan website marketing." },
+        { title: "Junior Developer", company: "PT. Inovasi Digital", period: "2018 - 2020", desc: "Membantu tim front-end dan QA untuk beberapa proyek web." }
+      ]
+    };
+
+    /* ---------- UTILITIES ---------- */
+    function el(q){ return document.querySelector(q); }
+    function elAll(q){ return Array.from(document.querySelectorAll(q)); }
+
+    // Generate random hex color (safe 6 chars)
+    function generateRandomColor(){
+      const n = Math.floor(Math.random()*16777215);
+      let hex = n.toString(16);
+      while(hex.length < 6) hex = "0"+hex;
+      return "#"+hex;
+    }
+
+    // Apply background color and store
+    function applyBackground(hex, save=true){
+      document.documentElement.style.setProperty('--bg', hex);
+      document.body.style.background = hex;
+      if(save) localStorage.setItem('pf_bg', hex);
+    }
+
+    // Show welcome message (case study)
+    function showWelcome(){
+      // show only once per session (but we keep simple)
+      if(!sessionStorage.getItem('welcomeShown')){
+        setTimeout(()=> {
+          alert(`Selamat datang di portofolio ${DATA.name}!\nSelamat menjelajah 🔥`);
+          sessionStorage.setItem('welcomeShown','1');
+        }, 350); // small delay after load
+      }
+    }
+
+    // small helper to create elements
+    function create(tag,attrs={},text=""){
+      const n=document.createElement(tag);
+      for(const k in attrs) n.setAttribute(k,attrs[k]);
+      if(text) n.textContent=text;
+      return n;
+    }
+
+    /* ---------- INITIALIZE UI ---------- */
+    function initProfile(){
+      el('#meName').textContent = DATA.name;
+      el('#meRole').textContent = DATA.role;
+      el('#aboutText').textContent = DATA.about;
+      el('#emailLink').setAttribute('href','mailto:'+DATA.email);
+      el('#mailto').setAttribute('href','mailto:'+DATA.email+'?subject=Halo');
+      el('#downloadResume').setAttribute('href', DATA.resumeUrl || '#');
+      el('#heroName').textContent = `Halo, saya ${DATA.name}`;
+      el('#heroTag').textContent = DATA.role;
+      el('#yearNow').textContent = new Date().getFullYear();
+      el('#timeNow').textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      // update phone, city if needed
+    }
+
+    /* ---------- PROJECTS RENDER ---------- */
+    function renderProjects(filter='all'){
+      const container = el('#projectsGrid');
+      container.innerHTML = '';
+      const list = DATA.projects.filter(p => filter==='all' || p.category===filter);
+      if(list.length===0){ container.innerHTML = '<div class="card">Tidak ada proyek sesuai filter.</div>'; return; }
+      list.forEach(p=>{
+        const card = create('div',{class:'project card','data-id':p.id});
+        const img = create('img',{class:'thumb', src:p.img, alt:p.title});
+        const body = create('div',{class:'p-body'});
+        const t = create('div',{class:'p-title'}, p.title);
+        const d = create('div',{class:'p-desc'}, p.desc);
+        body.appendChild(t); body.appendChild(d);
+        card.appendChild(img); card.appendChild(body);
+        // click -> open modal
+        card.addEventListener('click', ()=> openProjectModal(p.id));
+        container.appendChild(card);
+      });
+    }
+
+    /* ---------- EXPERIENCE RENDER ---------- */
+    function renderExperience(){
+      const container = el('#experienceList');
+      container.innerHTML = '';
+      DATA.experience.forEach(exp=>{
+        const item = create('div',{class:'exp-item'});
+        const left = create('div');
+        const title = create('div',{}, exp.title + ' • ' + exp.company);
+        title.style.fontWeight = '700';
+        const desc = create('div',{class:'muted'}, exp.desc);
+        left.appendChild(title); left.appendChild(desc);
+        const right = create('div',{class:'meta'}, exp.period);
+        item.appendChild(left); item.appendChild(right);
+        container.appendChild(item);
+      });
+    }
+
+    /* ---------- MODAL ---------- */
+    function openProjectModal(id){
+      const p = DATA.projects.find(x=>x.id===id);
+      if(!p) return;
+      el('#modalTitle').textContent = p.title;
+      el('#modalMeta').textContent = `${p.category.toUpperCase()} • ${p.desc}`;
+      el('#modalContent').textContent = p.long;
+      el('#modalLive').setAttribute('href', p.live || '#');
+      el('#modalRepo').setAttribute('href', p.repo || '#');
+      el('#modalBackdrop').classList.add('open');
+      el('#modalBackdrop').setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      el('#modalBackdrop').classList.remove('open');
+      el('#modalBackdrop').setAttribute('aria-hidden','true');
+    }
+
+    /* ---------- CONTACT FORM ---------- */
+    function initContact(){
+      const form = el('#contactForm');
+      const btn = el('#sendBtn');
+      const status = el('#formStatus');
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Mengirim...';
+        // simple validation
+        const name = el('#inputName').value.trim();
+        const email = el('#inputEmail').value.trim();
+        const subj = el('#inputSubject').value.trim();
+        const msg = el('#inputMessage').value.trim();
+        if(!name||!email||!msg){
+          alert('Isi nama, email, dan pesan terlebih dahulu.');
+          btn.disabled = false; btn.textContent = 'Kirim Pesan';
+          return;
+        }
+        // fallback: open mailto with body (since we don't have backend)
+        const body = encodeURIComponent(`Nama: ${name}\nEmail: ${email}\n\n${msg}`);
+        const mailto = `mailto:${DATA.email}?subject=${encodeURIComponent(subj||'Pesan dari portofolio')}&body=${body}`;
+        window.location.href = mailto;
+        // reset btn after small delay
+        setTimeout(()=>{ btn.disabled=false; btn.textContent='Kirim Pesan'; },1000);
+      });
+    }
+
+    /* ---------- THEME TOGGLE (light/dark) ---------- */
+    function initTheme(){
+      const btn = el('#toggleTheme');
+      const LS_KEY = 'pf_theme';
+      const apply = (mode)=>{
+        if(mode==='light'){
+          document.documentElement.style.setProperty('--text','#0b1220');
+          document.documentElement.style.setProperty('--muted','#475569');
+          document.documentElement.style.setProperty('--glass','rgba(0,0,0,0.03)');
+          document.documentElement.style.setProperty('--glass-2','rgba(0,0,0,0.04)');
+          document.documentElement.style.setProperty('--card','rgba(0,0,0,0.03)');
+        } else {
+          document.documentElement.style.setProperty('--text','#e6eef6');
+          document.documentElement.style.setProperty('--muted','#94a3b8');
+          document.documentElement.style.setProperty('--glass','rgba(255,255,255,0.04)');
+          document.documentElement.style.setProperty('--glass-2','rgba(255,255,255,0.06)');
+          document.documentElement.style.setProperty('--card','rgba(255,255,255,0.06)');
+        }
+      };
+      // boot from LS
+      let mode = localStorage.getItem(LS_KEY) || 'dark';
+      apply(mode);
+      btn.addEventListener('click', ()=>{
+        mode = (mode==='dark')?'light':'dark';
+        apply(mode);
+        localStorage.setItem(LS_KEY, mode);
+      });
+    }
+
+    /* ---------- REVEAL (scroll-ish simple) ---------- */
+    function revealAll(){
+      const els = elAll('.reveal');
+      els.forEach((el, i)=>{
+        setTimeout(()=> el.classList.add('show'), 120*i);
+      });
+    }
+
+    /* ---------- UTILITY: show current time update ---------- */
+    function tickTime(){
+      el('#timeNow').textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }
+
+    /* ---------- BOOTSTRAP ---------- */
+    function boot(){
+      // load persisted background or pick new
+      const savedBg = localStorage.getItem('pf_bg');
+      if(savedBg) applyBackground(savedBg, false);
+      else applyBackground(generateRandomColor(), true);
+
+      initProfile();
+      renderProjects('all');
+      renderExperience();
+      initContact();
+      initTheme();
+
+      // set resume link if provided
+      if(DATA.resumeUrl && DATA.resumeUrl!=="#") el('#downloadResume').setAttribute('href', DATA.resumeUrl);
+
+      // project filter
+      el('#projectFilter').addEventListener('change', (e)=> renderProjects(e.target.value));
+
+      // modal events
+      el('#closeModal').addEventListener('click', closeModal);
+      el('#modalBackdrop').addEventListener('click', (ev)=>{
+        if(ev.target === el('#modalBackdrop')) closeModal();
+      });
+
+      // change background button
+      el('#btnChangeBg').addEventListener('click', ()=>{
+        const color = generateRandomColor();
+        applyBackground(color, true);
+      });
+
+      // welcome message (case study)
+      showWelcome();
+
+      // reveal animation
+      revealAll();
+
+      // update time periodically
+      setInterval(tickTime, 60*1000);
+      tickTime();
+
+      // small UX: press "Escape" to close modal
+      document.addEventListener('keydown', (e)=> { if(e.key==='Escape') closeModal(); });
+
+      // fill contact mailto quick link (footer)
+      el('#mailto').setAttribute('href','mailto:'+DATA.email+'?subject=Halo');
+    }
+
+    // run
+    document.addEventListener('DOMContentLoaded', boot);
+
+    /* ---------- Accessibility + small polish: ensure images have alt or fallback ---------- */
+    window.addEventListener('error', (e)=>{
+      // if image fails, ignore
+    });
+  </script>
+</body>
+</html>
